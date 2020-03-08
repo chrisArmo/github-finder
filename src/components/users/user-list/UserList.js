@@ -30,7 +30,7 @@ const UserList = ({ users, loading }) => {
             textAlign: 'center',
           }}
         >
-          No Users.
+          No Users To Display
         </div>
       );
   }
