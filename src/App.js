@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 
 import './App.css';
 
+import About from './components/pages/about/About';
 import Alert from './components/layout/alert/Alert';
+import Home from './components/pages/home/Home';
 import Navbar from './components/layout/navbar/Navbar';
-import Search from './components/layout/search/Search';
-import UserList from './components/users/user-list/UserList';
 
 const {
   REACT_APP_GITHUB_CLIENT_ID,
@@ -52,22 +53,29 @@ class App extends Component {
     const { users, loading, alert } = this.state;
 
     return (
-      <div className="App">
-        <Navbar title="Github Finder" icon="fab fa-github" />
+      <Router>
+        <div className="App">
+          <Navbar title="Github Finder" icon="fab fa-github" />
 
-        <div className="container">
-          <Alert alert={alert} />
+          <div className="container">
+            <Alert alert={alert} />
 
-          <Search
-            showClear={users.length > 0}
-            searchInput={this.searchUser}
-            clearInput={this.clearUsers}
-            setAlert={this.setAlert}
-          />
+            <Switch>
+              <Route exact path="/">
+                <Home
+                  users={users}
+                  loading={loading}
+                  searchUser={this.searchUser}
+                  clearUsers={this.clearUsers}
+                  setAlert={this.setAlert}
+                />
+              </Route>
 
-          <UserList users={users} loading={loading} />
+              <Route exact path="/about" component={About} />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
