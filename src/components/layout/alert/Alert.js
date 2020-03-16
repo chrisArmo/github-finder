@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Alert = ({ alert }) => {
+const Alert = ({ alert, removeAlert }) => {
   return (
     alert !== null && (
       <div
@@ -17,6 +17,7 @@ const Alert = ({ alert }) => {
             padding: '1px 1rem',
           }}
           type="button"
+          onClick={removeAlert}
         >
           x
         </button>
