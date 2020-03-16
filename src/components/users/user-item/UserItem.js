@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-const UserItem = ({ login, avatar_url, html_url }) => (
+const UserItem = ({ login, avatar_url }) => (
   <div className="card text-center">
     <img
       className="round-img"
@@ -13,9 +14,9 @@ const UserItem = ({ login, avatar_url, html_url }) => (
     <h4>{login}</h4>
 
     <div>
-      <a className="btn btn-dark btn-sm my-1" href={html_url}>
+      <Link className="btn btn-dark btn-sm my-1" to={`/user/${login}`}>
         See profile.
-      </a>
+      </Link>
     </div>
   </div>
 );
@@ -23,7 +24,6 @@ const UserItem = ({ login, avatar_url, html_url }) => (
 UserItem.propTypes = {
   login: PropTypes.string.isRequired,
   avatar_url: PropTypes.string.isRequired,
-  html_url: PropTypes.string.isRequired,
 };
 
 export default UserItem;
