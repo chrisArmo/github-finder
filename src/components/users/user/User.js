@@ -2,24 +2,29 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import RepoList from '../../repos/repo-list/RepoList';
 import Spinner from '../../layout/spinner/Spinner';
 
 class User extends Component {
   componentDidMount() {
     const {
       getUser,
+      getUserRepos,
       match: {
         params: { login = null },
       },
     } = this.props;
 
     getUser(login);
+    getUserRepos(login);
   }
 
   static propTypes = {
     loading: PropTypes.bool,
     user: PropTypes.object.isRequired,
+    repos: PropTypes.array.isRequired,
     getUser: PropTypes.func.isRequired,
+    getUserRepos: PropTypes.func.isRequired,
   };
 
   render() {
@@ -40,6 +45,7 @@ class User extends Component {
         hireable,
       },
       loading,
+      repos,
     } = this.props;
 
     if (loading) return <Spinner />;
@@ -76,7 +82,12 @@ class User extends Component {
 
                 <p>{bio}</p>
 
-                <a href={html_url} className="btn btn-dark my-1">
+                <a
+                  href={html_url}
+                  className="btn btn-dark my-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Visit Github Profile
                 </a>
 
@@ -120,6 +131,7 @@ class User extends Component {
 
           <div className="badge badge-dark">Public Gists: {public_gists}</div>
         </div>
+        <RepoList repos={repos} />
       </Fragment>
     );
   }
