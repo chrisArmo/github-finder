@@ -1,26 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-const Alert = ({ alert, removeAlert }) => {
+import AlertContext from '../../../context/alert/AlertContext';
+
+// TODO: squash alert bug
+const Alert = () => {
+  const { cls, msg, show } = useContext(AlertContext);
+
   return (
-    alert !== null && (
+    show && (
       <div
-        className={`alert alert-${alert.type} text-center`}
+        className={`alert alert-${cls} text-center`}
         style={{
           width: '100%',
         }}
       >
-        <i className="fas fa-info-circle" /> {alert.msg}
-        <button
-          style={{
-            cursor: 'pointer',
-            marginLeft: '50px',
-            padding: '1px 1rem',
-          }}
-          type="button"
-          onClick={removeAlert}
-        >
-          x
-        </button>
+        <i className="fas fa-info-circle" /> {msg}
       </div>
     )
   );

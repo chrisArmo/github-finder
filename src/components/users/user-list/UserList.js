@@ -1,10 +1,12 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment, useContext } from 'react';
 
+import GithubContext from '../../../context/github/GithubContext';
 import Spinner from '../../layout/spinner/Spinner';
 import UserItem from '../user-item/UserItem';
 
-const UserList = ({ users, loading }) => {
+const UserList = () => {
+  const { users, loading } = useContext(GithubContext);
+
   let display = (
     <div>
       <Spinner />
@@ -15,7 +17,7 @@ const UserList = ({ users, loading }) => {
     if (users.length)
       display = (
         <div style={userListStyles}>
-          {users.map(user => (
+          {users.map((user) => (
             <UserItem key={user.id} {...user} />
           ))}
         </div>
@@ -36,11 +38,6 @@ const UserList = ({ users, loading }) => {
   }
 
   return <Fragment>{display}</Fragment>;
-};
-
-UserList.propTypes = {
-  users: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 const userListStyles = {

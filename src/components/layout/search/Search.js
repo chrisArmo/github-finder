@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
 
-// TODO: finish refactoring user search
-const UserSearch = ({ showClear, searchInput, clearInput, setAlert }) => {
+import AlertContext from '../../../context/alert/AlertContext';
+import GithubContext from '../../../context/github/GithubContext';
+
+const UserSearch = () => {
+  const { users, searchUser, clearUsers } = useContext(GithubContext),
+    { setAlert } = useContext(AlertContext);
+
   const [text, setText] = useState('');
 
-  const changeInput = e => {
+  const changeInput = (e) => {
     const { value } = e.target;
 
     setText(() => value);
   };
 
-  const clearData = () => clearInput();
-
-  const submitForm = e => {
+  const submitForm = (e) => {
     e.preventDefault();
 
     const {
@@ -25,15 +27,15 @@ const UserSearch = ({ showClear, searchInput, clearInput, setAlert }) => {
     } = e;
 
     if (value.trim() === '')
-      return setAlert('Please enter text to search', 'light');
+      return setAlert('Please enter username to search', 'danger');
 
-    searchInput(e.target.elements.text.value);
+    searchUser(e.target.elements.text.value);
     setText(() => '');
   };
 
   return (
-    <div>
-      <form onSubmit={submitForm} className="form">
+    <div className="pt-1">
+      <form onSubmit={submitForm} className="form my-2">
         <input
           type="text"
           name="text"
@@ -49,20 +51,13 @@ const UserSearch = ({ showClear, searchInput, clearInput, setAlert }) => {
         />
       </form>
 
-      {showClear ? (
-        <button className="btn btn-light btn-block" onClick={clearData}>
+      {users.length ? (
+        <button className="btn btn-light btn-block" onClick={clearUsers}>
           Clear
         </button>
       ) : null}
     </div>
   );
-};
-
-UserSearch.propTypes = {
-  searchInput: PropTypes.func.isRequired,
-  clearInput: PropTypes.func.isRequired,
-  showClear: PropTypes.bool.isRequired,
-  setAlert: PropTypes.func.isRequired,
 };
 
 export default UserSearch;
